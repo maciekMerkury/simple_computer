@@ -1,8 +1,11 @@
 default: test
 
-.PHONY: test run full_build clean
+.PHONY: test run full_build clean clear
 
 all: full_build test
+
+clear:
+	clear
 
 test:
 	cargo test
