@@ -1,30 +1,15 @@
 #[cfg(test)]
 mod tests;
 
-mod memory;
+pub mod memory;
 use memory::*;
 
 // 16 bits let's go
-mod word;
+pub mod word;
 use word::*;
 
-#[derive(Debug)]
-pub enum Instruction {
-    /// Adds R1 to R2 and stores the result in R3
-    /// casts words to i16
-    Add(usize, usize, usize),
-
-    /// Inverts R1 and stores it in R1
-    Inv(usize),
-
-    /// loads an 8bit number into a specified position in the register R1
-    /// for the bool: false means 0 and true means 1
-    Lod(u8, bool, usize),
-
-    // inb4 cum: no
-    /// if R1 is zero, PC is set to value
-    Jiz(usize, u16)
-}
+pub mod instruction;
+use instruction::*;
 
 #[derive(Debug, Clone)]
 pub struct CPU {
@@ -68,7 +53,7 @@ impl CPU {
 
             Jiz(r1, value) => {
                 if r1 == 0 {
-                    self.pc.set_u16(value);
+                    self.pc.set_u16(value.into());
                 }
             },
         };
