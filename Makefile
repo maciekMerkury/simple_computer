@@ -1,8 +1,8 @@
 default: test
 
-.PHONY: test run full_build clean clear
+.PHONY: test run full_build clean clear fmt
 
-all: full_build test
+all: test full_build fmt
 
 clear:
 	clear
@@ -19,4 +19,7 @@ full_build:
 
 clean:
 	cargo clean
+
+fmt:
+	cargo fmt
 
