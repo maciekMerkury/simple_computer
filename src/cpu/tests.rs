@@ -11,8 +11,8 @@ fn word_bytes() {
 
 #[test]
 fn cpu_add() {
-    use super::CPU;
     use super::instruction::Instruction::Add;
+    use super::CPU;
 
     let mut cpu = CPU::new();
     cpu.registers[0].set_i16(1);
@@ -24,8 +24,8 @@ fn cpu_add() {
 
 #[test]
 fn cpu_inv() {
-    use super::CPU;
     use super::instruction::Instruction::Inv;
+    use super::CPU;
 
     let mut cpu = CPU::new();
     cpu.registers[0].set_u16(1);
@@ -36,8 +36,8 @@ fn cpu_inv() {
 
 #[test]
 fn cpu_lod() {
-    use super::CPU;
     use super::instruction::Instruction::Lod;
+    use super::CPU;
 
     let mut cpu = CPU::new();
     cpu.execute_instruction(Lod(255, false, 0));
@@ -50,8 +50,8 @@ fn cpu_lod() {
 
 #[test]
 fn cpu_jiz() {
-    use super::CPU;
     use super::instruction::Instruction::Jiz;
+    use super::CPU;
 
     let mut cpu = CPU::new();
     cpu.execute_instruction(Jiz(0, u8::MAX));
@@ -59,40 +59,54 @@ fn cpu_jiz() {
 }
 
 // Instruction from and to u16
+
 #[test]
-fn conv_add() {
-    use super::Instruction::Add;
+fn instructions_to_word() {
+    use super::Instruction::*;
+
     let add = Add(7, 1, 2);
     let b = add.to_word();
     println!("{:?} -> {:#018b}", add, b.to_u16());
     assert!(b == super::Word::new(0b00000_010_001_111_00u16));
-}
 
-#[test]
-fn conv_inv() {
-    use super::Instruction::Inv;
     let inv = Inv(0);
     let b = inv.to_word();
     println!("{:?} -> {:#018b}", inv, b.to_u16());
     assert!(b == super::Word::new(0b00000000000_000_01u16));
-}
 
-#[test]
-fn conv_lod() {
-    use super::Instruction::Lod;
     let lod = Lod(255, false, 6);
     let b = lod.to_word();
     println!("{:?} -> {:#018b}", lod, b.to_u16());
     assert!(b == super::Word::new(0b00_110_0_11111111_10u16));
-    
-}
 
-#[test]
-fn conv_jiz() {
-    use super::Instruction::Jiz;
     let jiz = Jiz(2, 255);
     let b = jiz.to_word();
     println!("{:?} -> {:#018b}", jiz, b.to_u16());
     assert!(b == super::Word::new(0b000_11111111_010_11u16));
 }
 
+#[test]
+fn word_to_instructions() {
+    use super::Instruction::*;
+    use super::{from_word, Word};
+
+    let add = Word::new(0b00000_010_001_111_00u16);
+    let mut inst = from_word(&add);
+    println!("add: {:?}", inst);
+    assert!(inst == Add(7, 1, 2));
+
+    let inv = Word::new(0b00000000000_000_01u16);
+    inst = from_word(&inv);
+    println!("inv : {:?}", inst);
+    assert!(inst == Inv(0));
+
+    let lod = Word::new(0b00_110_0_11111111_10u16);
+    inst = from_word(&lod);
+    println!("lod: {:?}", inst);
+    assert!(inst == Lod(255, false, 6));
+
+    let jiz = Word::new(0b000_11111111_010_11u16);
+    inst = from_word(&jiz);
+    println!("jiz: {:?}", inst);
+    assert!(inst == Jiz(2, 255));
+}

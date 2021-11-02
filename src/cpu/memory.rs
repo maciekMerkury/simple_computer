@@ -21,4 +21,3 @@ impl IndexMut<u16> for Memory {
         return &mut self.0[index as usize];
     }
 }
-

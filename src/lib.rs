@@ -3,6 +3,5 @@
 #[cfg(test)]
 mod tests;
 
-pub mod cpu;
 pub mod assembler;
-
+pub mod cpu;

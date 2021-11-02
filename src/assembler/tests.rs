@@ -1,5 +1,5 @@
-use crate::cpu::instruction::Instruction::{self, *};
 use super::parse_line;
+use crate::cpu::instruction::Instruction::{self, *};
 
 #[test]
 fn parse_add() {
@@ -32,4 +32,3 @@ fn parse_jiz() {
     assert!(compiled == Jiz(0, 15));
     assert!(parse_line("jiz r0 256").is_err());
 }
-
