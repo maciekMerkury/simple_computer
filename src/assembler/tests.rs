@@ -32,3 +32,4 @@ fn parse_jiz() {
     assert!(compiled == Jiz(0, 15));
     assert!(parse_line("jiz r0 256").is_err());
 }
+

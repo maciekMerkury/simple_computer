@@ -14,10 +14,10 @@ use instruction::*;
 #[derive(Debug, Clone)]
 pub struct CPU {
     // more than 64KiB is bloat anyway
-    memory: Memory,
+    pub memory: Memory,
     // program counter
-    pc: Word,
-    registers: [Word; 8],
+    pub pc: Word,
+    pub registers: [Word; 8],
 }
 
 impl CPU {
