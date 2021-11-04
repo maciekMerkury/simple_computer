@@ -30,11 +30,11 @@ impl Instruction {
                 Word::new(
                     0u16 | ((r1 as u16) << 2u16) | ((r2 as u16) << 5u16) | ((r3 as u16) << 8u16),
                 )
-            }
+            },
             &Inv(r1) => {
                 //unimplemented!("Inv to byte");
                 Word::new(1u16 | ((r1 as u16) << 2u16))
-            }
+            },
             &Lod(val, pos, r1) => {
                 //unimplemented!("Lod to byte");
                 Word::new(
@@ -42,11 +42,11 @@ impl Instruction {
                         | ((pos as u16) << 10u16)
                         | ((r1 as u16) << 11u16),
                 )
-            }
+            },
             &Jiz(r1, val) => {
                 //unimplemented!("Jiz to byte");
                 Word::new(3u16 | ((r1 as u16) << 2u16) | ((val as u16) << 5u16))
-            }
+            },
         };
     }
 }
@@ -66,12 +66,12 @@ pub fn from_word(word: &super::Word) -> Instruction {
             }
 
             Add(regs[0], regs[1], regs[2])
-        }
+        },
         // Inv
         1 => {
             // bruh
             Inv(((word & (7u16 << 2u16)) >> 2u16) as usize)
-        }
+        },
         // Lod
         2 => {
             let val: u8 = ((word & (255u16 << 2u16)) >> 2u16) as u8;
@@ -79,17 +79,17 @@ pub fn from_word(word: &super::Word) -> Instruction {
             let r1: usize = ((word & (7u16 << 11u16)) >> 11u16) as usize;
 
             Lod(val, pos, r1)
-        }
+        },
         // Jiz
         3 => {
             let r1: usize = ((word & (7u16 << 2u16)) >> 2u16) as usize;
             let val: u8 = ((word & (255u16 << 5u16)) >> 5u16) as u8;
 
             Jiz(r1, val)
-        }
+        },
 
         _ => {
             unreachable!()
-        }
+        },
     };
 }

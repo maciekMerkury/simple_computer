@@ -41,15 +41,15 @@ pub fn parse_line(line: &str) -> Result<Instruction, ParseError> {
                             ));
                         }
                         regs[i - 1] = ri;
-                    }
+                    },
                     Err(e) => {
                         return Err(ParseError::ArgumentParseError(line.into(), e.to_string()))
-                    }
+                    },
                 }
             }
 
             return Ok(Instruction::Add(regs[0], regs[1], regs[2]));
-        }
+        },
         "inv" => {
             if things.len() < 2 {
                 return Err(ParseError::NotEnoughArguments(line.into()));
@@ -67,10 +67,10 @@ pub fn parse_line(line: &str) -> Result<Instruction, ParseError> {
                         ));
                     }
                     return Ok(Instruction::Inv(ri));
-                }
+                },
                 Err(e) => return Err(ParseError::ArgumentParseError(line.into(), e.to_string())),
             }
-        }
+        },
         "lod" => {
             if things.len() < 4 {
                 return Err(ParseError::NotEnoughArguments(line.into()));
@@ -91,7 +91,7 @@ pub fn parse_line(line: &str) -> Result<Instruction, ParseError> {
             }
 
             return Ok(Instruction::Lod(regs.0, regs.1, regs.2));
-        }
+        },
         "jiz" => {
             if things.len() < 3 {
                 return Err(ParseError::NotEnoughArguments(line.into()));
@@ -108,7 +108,7 @@ pub fn parse_line(line: &str) -> Result<Instruction, ParseError> {
             }
 
             return Ok(Instruction::Jiz(regs.0, regs.1));
-        }
+        },
         _ => return Err(ParseError::UnknownFirstToken(line.into())),
     }
 }
